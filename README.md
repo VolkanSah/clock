@@ -53,3 +53,5 @@ Die "Don't Be A Dick"-Lizenz erlaubt es dir, das Projekt nach Belieben zu nutzen
 ### 🎉 Viel Spaß!
 
 Hab Spaß mit diesem kleinen Projekt! Feedback, Verbesserungen und neue Ideen sind immer willkommen. 😄
+
+
