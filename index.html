@@ -14,6 +14,7 @@ body {
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
 }
+
 .circle {
   position: relative;
   width: 300px;
@@ -23,36 +24,45 @@ body {
   background-color: #fff;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+
 .segment {
   position: absolute;
   width: 2px;
   height: 15px;
   background: #000;
-  top: 0;
   left: 50%;
-  transform-origin: center bottom;
+  transform-origin: 50% 150px; /* Hälfte der Kreishöhe */
 }
+
 .hand {
   position: absolute;
-  width: 4px;
   background: #000;
-  top: 50%;
   left: 50%;
-  transform-origin: center bottom;
-  transform: translate(-50%, 0);
+  bottom: 50%;
+  transform-origin: 50% 100%;
 }
+
 .hour {
+  width: 4px;
   height: 60px;
   background: #000;
+  margin-left: -2px;
 }
+
 .minute {
+  width: 3px;
   height: 90px;
   background: #333;
+  margin-left: -1.5px;
 }
+
 .second {
+  width: 2px;
   height: 110px;
   background: red;
+  margin-left: -1px;
 }
+
 .center {
   position: absolute;
   width: 12px;
@@ -62,15 +72,14 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 10;
 }
 </style>
 </head>
 <body>
-
 <div class="circle">
   <div class="center"></div>
 </div>
-
 <script>
 const circle = document.querySelector('.circle');
 
@@ -78,8 +87,8 @@ const circle = document.querySelector('.circle');
 for (let i = 0; i < 60; i++) {
   const segment = document.createElement('div');
   segment.className = 'segment';
-  segment.style.height = i % 5 === 0 ? '25px' : '15px'; // Längere Markierungen für Stunden
-  segment.style.transform = `rotate(${i * 6}deg) translate(-50%, 0)`;
+  segment.style.height = i % 5 === 0 ? '25px' : '15px';
+  segment.style.transform = `rotate(${i * 6}deg)`;
   circle.appendChild(segment);
 }
 
@@ -101,21 +110,20 @@ function updateClock() {
   const now = new Date();
   const seconds = now.getSeconds();
   const minutes = now.getMinutes();
-  const hours = now.getHours() % 12; // 12-Stunden-Format
+  const hours = now.getHours() % 12;
 
   const secondDegree = seconds * 6;
   const minuteDegree = minutes * 6 + seconds * 0.1;
   const hourDegree = hours * 30 + minutes * 0.5;
 
-  secondHand.style.transform = `translate(-50%, 0) rotate(${secondDegree}deg)`;
-  minuteHand.style.transform = `translate(-50%, 0) rotate(${minuteDegree}deg)`;
-  hourHand.style.transform = `translate(-50%, 0) rotate(${hourDegree}deg)`;
+  secondHand.style.transform = `rotate(${secondDegree}deg)`;
+  minuteHand.style.transform = `rotate(${minuteDegree}deg)`;
+  hourHand.style.transform = `rotate(${hourDegree}deg)`;
 }
 
 // Uhr initialisieren
 setInterval(updateClock, 1000);
 updateClock();
 </script>
-
 </body>
 </html>
