@@ -20,6 +20,10 @@
         path {
             transition: fill 0.2s ease;
         }
+
+        #hourHand {
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 <body>
@@ -27,32 +31,27 @@
         <g stroke="black" stroke-width="0.5">
             <g id="secondRing"></g>
             <g id="minuteRing"></g>
-            <g id="hourRing"></g>
+            <path id="hourHand" 
+                  d="M -4 0 L 0 -45 L 4 0 Z" 
+                  fill="#0000ff" 
+                  transform-origin="center center"/>
         </g>
     </svg>
     <script>
-        // Konfigurierbare Größen
         const clockConfig = {
             secondsRing: {
                 outer: 100,
                 inner: 80,
                 segments: 60,
-                activeColor: '#ff0000', // Rot
+                activeColor: '#ff0000',
                 inactiveColor: '#ffeeee'
             },
             minutesRing: {
-                outer: 80,
-                inner: 60,
+                outer: 75,
+                inner: 55,
                 segments: 60,
-                activeColor: '#00ff00', // Grün
+                activeColor: '#00ff00',
                 inactiveColor: '#eeffee'
-            },
-            hoursRing: {
-                outer: 60,
-                inner: 50,
-                segments: 12,
-                activeColor: '#0000ff', // Blau
-                inactiveColor: '#eeeeff'
             }
         };
 
@@ -90,12 +89,10 @@
             return segments;
         }
 
-        // Ringe erstellen
         const secondSegments = createRing('secondRing', clockConfig.secondsRing);
         const minuteSegments = createRing('minuteRing', clockConfig.minutesRing);
-        const hourSegments = createRing('hourRing', clockConfig.hoursRing);
+        const hourHand = document.getElementById('hourHand');
 
-        // Funktion zum Aktualisieren der Uhr
         function updateClock() {
             const now = new Date();
             const hours = now.getHours() % 12;
@@ -114,18 +111,16 @@
                     index === minutes ? clockConfig.minutesRing.activeColor : clockConfig.minutesRing.inactiveColor);
             });
             
-            // Stunden aktualisieren
-            hourSegments.forEach((segment, index) => {
-                segment.setAttribute("fill", 
-                    index === hours ? clockConfig.hoursRing.activeColor : clockConfig.hoursRing.inactiveColor);
-            });
+            // Stundenzeiger aktualisieren - jetzt mit Offset für Segmentmitte
+            const hourSegmentAngle = 360 / 12; // 30 Grad pro Stunde
+            const halfSegmentOffset = hourSegmentAngle / 2; // 15 Grad
+            const hourAngle = (hours * hourSegmentAngle) + halfSegmentOffset + (minutes * 0.5);
+            hourHand.setAttribute('transform', `rotate(${hourAngle})`);
         }
 
-        // Uhr initialisieren und aktualisieren
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Funktion zum Ändern der Uhrgröße
         function resizeClock(width, height) {
             const svg = document.getElementById('clockSVG');
             svg.setAttribute('width', width);
