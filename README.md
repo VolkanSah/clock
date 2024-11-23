@@ -10,7 +10,7 @@ Schau dir die verschiedenen Versionen der Uhr an:
 - [Demo 4](https://volkansah.github.io/clock/index4.html)
 - [Demo 5](https://volkansah.github.io/clock/index5.html)
 - [Demo 6](https://volkansah.github.io/clock/index6.html)
-- [Demo 7](https://volkansah.github.io/clock/index6.html) - **Beetlejuice**
+- [Demo 7](https://volkansah.github.io/clock/index7.html) - **Beetlejuice**
 
 ## ⚙️ Konfiguration
 
