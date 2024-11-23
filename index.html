@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bahnhofsuhr</title>
+<style>
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+}
+.circle {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 8px solid #000;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+.segment {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: #000;
+  top: 0;
+  left: 50%;
+  transform-origin: center bottom;
+}
+.hand {
+  position: absolute;
+  width: 4px;
+  background: #000;
+  top: 50%;
+  left: 50%;
+  transform-origin: center bottom;
+  transform: translate(-50%, 0);
+}
+.hour {
+  height: 60px;
+  background: #000;
+}
+.minute {
+  height: 90px;
+  background: #333;
+}
+.second {
+  height: 110px;
+  background: red;
+}
+.center {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+
+<div class="circle">
+  <div class="center"></div>
+</div>
+
+<script>
+const circle = document.querySelector('.circle');
+
+// Stunden- und Minutenmarkierungen hinzufügen
+for (let i = 0; i < 60; i++) {
+  const segment = document.createElement('div');
+  segment.className = 'segment';
+  segment.style.height = i % 5 === 0 ? '25px' : '15px'; // Längere Markierungen für Stunden
+  segment.style.transform = `rotate(${i * 6}deg) translate(-50%, 0)`;
+  circle.appendChild(segment);
+}
+
+// Zeiger erstellen
+const hourHand = document.createElement('div');
+hourHand.className = 'hand hour';
+circle.appendChild(hourHand);
+
+const minuteHand = document.createElement('div');
+minuteHand.className = 'hand minute';
+circle.appendChild(minuteHand);
+
+const secondHand = document.createElement('div');
+secondHand.className = 'hand second';
+circle.appendChild(secondHand);
+
+// Uhr aktualisieren
+function updateClock() {
+  const now = new Date();
+  const seconds = now.getSeconds();
+  const minutes = now.getMinutes();
+  const hours = now.getHours() % 12; // 12-Stunden-Format
+
+  const secondDegree = seconds * 6;
+  const minuteDegree = minutes * 6 + seconds * 0.1;
+  const hourDegree = hours * 30 + minutes * 0.5;
+
+  secondHand.style.transform = `translate(-50%, 0) rotate(${secondDegree}deg)`;
+  minuteHand.style.transform = `translate(-50%, 0) rotate(${minuteDegree}deg)`;
+  hourHand.style.transform = `translate(-50%, 0) rotate(${hourDegree}deg)`;
+}
+
+// Uhr initialisieren
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
