@@ -114,11 +114,11 @@
             // Stundenzeiger aktualisieren - jetzt mit Offset für Segmentmitte
 
 
-            const hourSegmentAngle = 360 / 12; // 30 Grad pro Stunde
-            const halfSegmentOffset = hourSegmentAngle / 2; // 15 Grad
-            // const hourAngle = (hours * hourSegmentAngle) + halfSegmentOffset + (minutes * 0.5);
-            const hourAngle = (hours * hourSegmentAngle) + (minutes / 60) * hourSegmentAngle;
-            hourHand.setAttribute('transform', `rotate(${hourAngle})`);
+// Stundenzeiger aktualisieren
+const hourSegmentAngle = 360 / 12; // 30 Grad pro Stunde
+const hourAngle = (hours * hourSegmentAngle) + (minutes / 60) * hourSegmentAngle;
+hourHand.setAttribute('transform', `rotate(${hourAngle})`);
+
         }
 
         setInterval(updateClock, 1000);
