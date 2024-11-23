@@ -30,25 +30,25 @@
         </g>
     </svg>
     <script>
-        // Konfiguration
+        // Konfiguration 
         const clockConfig = {
             secondsRing: {
-                outer: 100,
-                inner: 90,
+                outer: 100, // Ring anfang
+                inner: 90, // Ring ende
                 segments: 60,
                 activeColor: '#ff0000', // Rot
                 inactiveColor: '#ffeeee'
             },
             minutesRing: {
-                outer: 80,
-                inner: 70,
+                outer: 80, // Ring anfang
+                inner: 70,// Ring ende
                 segments: 60,
                 activeColor: '#00ff00', // Grün
                 inactiveColor: '#eeffee'
             },
             hoursRing: {
-                outer: 60,
-                inner: 50,
+                outer: 60, // Ring anfang
+                inner: 50, // Ring ende
                 segments: 12, // Stunden
                 activeColor: '#0000ff', // Blau
                 inactiveColor: '#eeeeff'
@@ -62,9 +62,8 @@
             
             for (let i = 0; i < config.segments; i++) {
                 const segmentWidth = 360 / config.segments;
-                const startAngle = i * segmentWidth;
-                const midAngle = startAngle + segmentWidth / 2;
-                const nextAngle = (i + 1) * segmentWidth;
+                const startAngle = i * segmentWidth - segmentWidth / 2; // Verschiebe um halbe Segmentbreite
+                const nextAngle = (i + 1) * segmentWidth - segmentWidth / 2;
                 
                 const x1 = config.outer * Math.cos((startAngle * Math.PI) / 180);
                 const y1 = config.outer * Math.sin((startAngle * Math.PI) / 180);
