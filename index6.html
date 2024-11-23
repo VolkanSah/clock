@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Ring-Uhr</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        svg {
+            transform: rotate(-90deg); /* Drehe den Ring, damit 0° auf 12 Uhr liegt */
+        }
+        path {
+            transition: fill 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <svg id="clockSVG" width="400" height="400" viewBox="-200 -200 400 400">
+        <g stroke="black" stroke-width="0.5">
+            <g id="secondRing"></g>
+            <g id="minuteRing"></g>
+            <g id="hourRing"></g>
+        </g>
+    </svg>
+    <script>
+        // Konfiguration 
+const clockConfig = {
+    secondsRing: {
+        outer: 100, // Ring anfang
+        inner: 70,  // Ring ende
+        segments: 60,
+        activeColor: '#FF6F61', // Korallenrot
+        inactiveColor: '#FFE4E1' // Leichtes Rosa
+    },
+    minutesRing: {
+        outer: 70,  // Ring anfang
+        inner: 50,  // Ring ende
+        segments: 60,
+        activeColor: '#6FCF97', // Pastellgrün
+        inactiveColor: '#E8F5E9' // Blasses Grün
+    },
+    hoursRing: {
+        outer: 50,  // Ring anfang
+        inner: 40,  // Ring ende
+        segments: 12, // Stunden
+        activeColor: '#56CCF2', // Helles Blau
+        inactiveColor: '#E3F2FD' // Blasses Himmelblau
+    }
+};
+
+
+        // Hilfsfunktion: Erstelle einen Ring
+        function createRing(containerId, config) {
+            const ring = document.getElementById(containerId);
+            const segments = [];
+            
+            for (let i = 0; i < config.segments; i++) {
+                const segmentWidth = 360 / config.segments;
+                const startAngle = i * segmentWidth - segmentWidth / 2; // Verschiebe um halbe Segmentbreite
+                const nextAngle = (i + 1) * segmentWidth - segmentWidth / 2;
+                
+                const x1 = config.outer * Math.cos((startAngle * Math.PI) / 180);
+                const y1 = config.outer * Math.sin((startAngle * Math.PI) / 180);
+                const x2 = config.outer * Math.cos((nextAngle * Math.PI) / 180);
+                const y2 = config.outer * Math.sin((nextAngle * Math.PI) / 180);
+                const innerX1 = config.inner * Math.cos((startAngle * Math.PI) / 180);
+                const innerY1 = config.inner * Math.sin((startAngle * Math.PI) / 180);
+                const innerX2 = config.inner * Math.cos((nextAngle * Math.PI) / 180);
+                const innerY2 = config.inner * Math.sin((nextAngle * Math.PI) / 180);
+                
+                const pathData = `M ${x1} ${y1} 
+                                A ${config.outer} ${config.outer} 0 0 1 ${x2} ${y2} 
+                                L ${innerX2} ${innerY2} 
+                                A ${config.inner} ${config.inner} 0 0 0 ${innerX1} ${innerY1} 
+                                Z`;
+                
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", pathData);
+                path.setAttribute("fill", config.inactiveColor);
+                
+                segments.push(path);
+                ring.appendChild(path);
+            }
+            
+            return segments;
+        }
+
+        // Ringe erstellen
+        const secondSegments = createRing('secondRing', clockConfig.secondsRing);
+        const minuteSegments = createRing('minuteRing', clockConfig.minutesRing);
+        const hourSegments = createRing('hourRing', clockConfig.hoursRing);
+
+        // Funktion: Uhr aktualisieren
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Sekunden aktualisieren
+            secondSegments.forEach((segment, index) => {
+                segment.setAttribute("fill", 
+                    index === seconds ? clockConfig.secondsRing.activeColor : clockConfig.secondsRing.inactiveColor);
+            });
+
+            // Minuten aktualisieren
+            minuteSegments.forEach((segment, index) => {
+                segment.setAttribute("fill", 
+                    index === minutes ? clockConfig.minutesRing.activeColor : clockConfig.minutesRing.inactiveColor);
+            });
+
+            // Stunden aktualisieren
+            hourSegments.forEach((segment, index) => {
+                // Highlight für aktuelle Stunde
+                segment.setAttribute("fill", 
+                    index === hours ? clockConfig.hoursRing.activeColor : clockConfig.hoursRing.inactiveColor);
+            });
+        }
+
+        // Initialisierung und regelmäßige Updates
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
