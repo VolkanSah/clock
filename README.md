@@ -45,7 +45,7 @@ const clockConfig = {
 
 **Dieses Projekt wurde für einen Freund erstellt, ist aber für jeden zugänglich.** 
 Beachte bitte: Dieses Projekt steht unter der DBAD License. 🛡️
-Was ist die DBAD License? [License-Text](LICENSE.txt)
+Was ist die DBAD License? [License-Text](LICENSE)
 
 Die "Don't Be A Dick"-Lizenz erlaubt es dir, das Projekt nach Belieben zu nutzen, mit einer wichtigen Einschränkung:
 ```
