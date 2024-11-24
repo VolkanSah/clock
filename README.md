@@ -14,7 +14,7 @@ Schau dir die verschiedenen Versionen der Uhr an:
 
 ## ⚙️ Konfiguration
 
-Die Ringe der Uhr sind vollständig anpassbar. Hier ist die aktuelle Farbpalette:
+Die Ringe der Uhr sind vollständig anpassbar. 
 
 ```javascript
 const clockConfig = {
